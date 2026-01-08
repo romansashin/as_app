@@ -1,0 +1,54 @@
+{
+  "categories": [
+    {
+      "id": "c1",
+      "title": "Сон",
+      "image_url": "PLACEHOLDER"
+    },
+    {
+      "id": "c2",
+      "title": "Расслабление",
+      "image_url": "PLACEHOLDER"
+    },
+    {
+      "id": "c3",
+      "title": "Медитация",
+      "image_url": "PLACEHOLDER"
+    }
+  ],
+  "practices": [
+    {
+      "id": "p1",
+      "category_id": "c1",
+      "title": "Засыпание",
+      "audio_url": "https://cb8a68a7-0a51-4e51-a5a3-31d034ec73fe.selstorage.ru/Vvodnaia%20lektciia%2C%20organizatcionnaia%20informatciia.m4a",
+      "audio_title": "Вводная лекция",
+      "description_md": "# Засыпание\n\nПрактика для быстрого засыпания и улучшения качества сна."
+    },
+    {
+      "id": "p2",
+      "category_id": "c1",
+      "title": "Глубокий сон",
+      "audio_url": "",
+      "audio_title": "",
+      "description_md": "# Глубокий сон\n\nТехника для достижения глубокой фазы сна."
+    },
+    {
+      "id": "p3",
+      "category_id": "c2",
+      "title": "Релаксация",
+      "audio_url": "",
+      "audio_title": "",
+      "description_md": "# Релаксация\n\nПрактика для снятия напряжения и стресса."
+    },
+    {
+      "id": "p4",
+      "category_id": "c3",
+      "title": "Осознанность",
+      "audio_url": "",
+      "audio_title": "",
+      "description_md": "# Осознанность\n\nМедитативная практика для развития внимательности."
+    }
+  ]
+}
+
