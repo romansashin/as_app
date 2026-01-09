@@ -43,7 +43,16 @@ ENV NODE_ENV=production
 
 # Create startup script that runs both cron and the app
 RUN echo '#!/bin/sh' > /app/start.sh && \
+    echo '# Create backup log file if it does not exist' >> /app/start.sh && \
+    echo 'touch /var/log/backup.log' >> /app/start.sh && \
+    echo '' >> /app/start.sh && \
+    echo '# Start cron daemon' >> /app/start.sh && \
     echo 'crond -b -l 2' >> /app/start.sh && \
+    echo '' >> /app/start.sh && \
+    echo '# Tail backup logs to stdout (for docker logs)' >> /app/start.sh && \
+    echo 'tail -f /var/log/backup.log &' >> /app/start.sh && \
+    echo '' >> /app/start.sh && \
+    echo '# Start the application' >> /app/start.sh && \
     echo 'exec npm start' >> /app/start.sh && \
     chmod +x /app/start.sh
 

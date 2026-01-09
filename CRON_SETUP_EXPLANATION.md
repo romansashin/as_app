@@ -69,15 +69,19 @@ RUN echo "0 3 * * 0 /app/scripts/backup-db.sh >> /var/log/backup.log 2>&1" > /et
 **Startup скрипт:**
 ```dockerfile
 RUN echo '#!/bin/sh' > /app/start.sh && \
+    echo 'touch /var/log/backup.log' >> /app/start.sh && \
     echo 'crond -b -l 2' >> /app/start.sh && \
+    echo 'tail -f /var/log/backup.log &' >> /app/start.sh && \
     echo 'exec npm start' >> /app/start.sh && \
     chmod +x /app/start.sh
 ```
 Создает `/app/start.sh`:
 ```sh
 #!/bin/sh
-crond -b -l 2      # Запускает cron в фоне с логированием
-exec npm start      # Запускает Node.js приложение
+touch /var/log/backup.log           # Создает файл логов
+crond -b -l 2                        # Запускает cron в фоне
+tail -f /var/log/backup.log &        # Транслирует логи backup в stdout
+exec npm start                       # Запускает Node.js приложение
 ```
 
 ### 2. При запуске контейнера
@@ -87,10 +91,14 @@ CMD ["/app/start.sh"]
 ```
 
 Выполняется:
-1. **crond -b -l 2** - запускает cron демон в background
+1. **touch /var/log/backup.log** - создает файл логов если не существует
+2. **crond -b -l 2** - запускает cron демон в background
    - `-b` = background mode
    - `-l 2` = log level 2 (errors + warnings)
-2. **exec npm start** - запускает Node.js приложение
+3. **tail -f /var/log/backup.log &** - транслирует backup логи в stdout
+   - Логи backup теперь видны через `docker logs`
+   - Работает в фоне (`&`)
+4. **exec npm start** - запускает Node.js приложение
    - `exec` заменяет процесс shell на npm, делая его PID 1
 
 ---
@@ -157,14 +165,23 @@ docker exec $(docker-compose -f docker-compose.prod.yml ps -q app) crontab -l
 # 0 3 * * 0 /app/scripts/backup-db.sh >> /var/log/backup.log 2>&1
 ```
 
-### 3. Проверить логи cron
+### 3. Проверить логи backup
 
+**Через docker logs (рекомендуется):**
 ```bash
-# Логи выполнения backup
+# Логи backup будут в общем потоке логов контейнера
+docker-compose -f docker-compose.prod.yml logs -f app
+
+# Фильтрация только backup логов
+docker-compose -f docker-compose.prod.yml logs app | grep -i backup
+```
+
+**Напрямую из файла:**
+```bash
+# Прямое чтение файла логов
 docker exec $(docker-compose -f docker-compose.prod.yml ps -q app) cat /var/log/backup.log
 
-# Если backup еще не выполнялся, файл может не существовать
-# Запустите вручную:
+# Запуск backup вручную для теста
 docker exec $(docker-compose -f docker-compose.prod.yml ps -q app) /app/scripts/backup-db.sh
 ```
 
@@ -319,6 +336,66 @@ docker exec $(docker-compose -f docker-compose.prod.yml ps -q app) /app/scripts/
 
 # Проверьте логи
 docker exec $(docker-compose -f docker-compose.prod.yml ps -q app) cat /var/log/backup.log
+```
+
+---
+
+## 📊 Мониторинг через Docker Logs
+
+### Логи backup в общем потоке
+
+Благодаря `tail -f` в startup скрипте, все логи backup автоматически попадают в stdout контейнера.
+
+**Преимущества:**
+- ✅ Видны через `docker logs` без входа в контейнер
+- ✅ Интегрируются с системами мониторинга (Prometheus, ELK, Grafana Loki)
+- ✅ Централизованный сбор логов
+- ✅ Алерты при ошибках backup
+
+### Примеры использования
+
+**Просмотр всех логов:**
+```bash
+docker-compose -f docker-compose.prod.yml logs -f app
+```
+
+**Только backup логи:**
+```bash
+docker-compose -f docker-compose.prod.yml logs app | grep "Starting database backup\|Backup completed\|ERROR"
+```
+
+**Последние backup события:**
+```bash
+docker-compose -f docker-compose.prod.yml logs --tail=100 app | grep -i backup
+```
+
+**Real-time мониторинг backup:**
+```bash
+docker-compose -f docker-compose.prod.yml logs -f app 2>&1 | grep --line-buffered backup
+```
+
+### Интеграция с системами мониторинга
+
+**Prometheus + Loki:**
+```yaml
+# docker-compose.prod.yml (добавить)
+services:
+  app:
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+        labels: "service=meditation-app,component=backup"
+```
+
+**Алерты на ошибки:**
+```bash
+# Скрипт для мониторинга
+#!/bin/bash
+docker-compose -f docker-compose.prod.yml logs --since 1h app | \
+  grep -i "backup.*error\|backup.*failed" && \
+  echo "ALERT: Backup error detected!" | mail -s "Backup Alert" admin@example.com
 ```
 
 ---

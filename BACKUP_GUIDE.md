@@ -63,13 +63,32 @@ find ./backups/ -name "database_backup_*.sqlite*" | wc -l
 
 ### Просмотр логов backup
 
+**Способ 1: Через docker logs (рекомендуется):**
 ```bash
-# Логи последнего выполнения
+# Все логи контейнера (включая backup)
+docker-compose -f docker-compose.prod.yml logs -f app
+
+# Только backup логи
+docker-compose -f docker-compose.prod.yml logs app | grep -i backup
+
+# Последние backup события
+docker-compose -f docker-compose.prod.yml logs --tail=100 app | grep backup
+```
+
+**Способ 2: Напрямую из файла:**
+```bash
+# Весь файл логов
 docker exec $(docker-compose -f docker-compose.prod.yml ps -q app) cat /var/log/backup.log
 
-# Или с tail
+# Последние 50 строк
 docker exec $(docker-compose -f docker-compose.prod.yml ps -q app) tail -50 /var/log/backup.log
 ```
+
+**Преимущества docker logs:**
+- ✅ Не нужно заходить в контейнер
+- ✅ Интеграция с системами мониторинга
+- ✅ Централизованный сбор логов
+- ✅ Фильтрация и поиск
 
 ---
 
