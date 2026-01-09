@@ -7,6 +7,13 @@
 
 📋 **[Release Notes v1.2](./RELEASE_v1.2.md)** - Что нового в этой версии
 
+## 📚 Документация
+
+- 🚀 **[Production Deployment Guide](./PRODUCTION_DEPLOYMENT.md)** - Полная инструкция по deployment
+- 🏗️ **[System Architecture](./SYSTEM_ARCHITECTURE.md)** - Архитектура системы
+- 💾 **[Backup Guide](./BACKUP_GUIDE.md)** - Резервное копирование базы данных
+- 🐳 **[Docker Deployment](./DOCKER_DEPLOYMENT.md)** - Детали Docker развертывания
+
 ## Технологии
 
 - **Backend**: Node.js, Fastify, SQLite
@@ -99,9 +106,22 @@ cd ../server && npm start
 
 ## Docker
 
+**Development:**
 ```bash
 docker-compose up
 ```
+
+**Production (готово к deployment):**
+```bash
+# Скопируйте и настройте .env
+cp env.production.example .env
+nano .env
+
+# Запустите
+docker-compose -f docker-compose.prod.yml up -d --build
+```
+
+📖 **Детали:** См. [PRODUCTION_DEPLOYMENT.md](./PRODUCTION_DEPLOYMENT.md)
 
 ## Структура проекта
 

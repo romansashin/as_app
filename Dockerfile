@@ -10,8 +10,11 @@ RUN npm run build
 FROM node:20-alpine
 WORKDIR /app
 
-# Install wget for healthcheck
-RUN apk add --no-cache wget
+# Install system dependencies
+# wget: for healthcheck
+# sqlite: for database backup
+# dcron: for scheduled backups
+RUN apk add --no-cache wget sqlite dcron
 
 # Copy server files
 COPY server/package*.json ./
@@ -22,9 +25,27 @@ COPY server/ ./
 # Copy client dist from builder stage
 COPY --from=client-builder /app/client/dist ./../client/dist
 
-EXPOSE 4000
+# Create backups directory
+RUN mkdir -p /app/backups
+
+# Copy backup script and make it executable
+COPY server/scripts/backup-db.sh /app/scripts/backup-db.sh
+RUN chmod +x /app/scripts/backup-db.sh
+
+# Setup weekly cron job (every Sunday at 3 AM)
+RUN echo "0 3 * * 0 /app/scripts/backup-db.sh >> /var/log/backup.log 2>&1" > /etc/crontabs/root
+
+# Port from environment variable (default 4000)
+ARG PORT=4000
+EXPOSE ${PORT}
 
 ENV NODE_ENV=production
 
-CMD ["npm", "start"]
+# Create startup script that runs both cron and the app
+RUN echo '#!/bin/sh' > /app/start.sh && \
+    echo 'crond -b -l 2' >> /app/start.sh && \
+    echo 'exec npm start' >> /app/start.sh && \
+    chmod +x /app/start.sh
+
+CMD ["/app/start.sh"]
 

@@ -20,7 +20,16 @@ dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const fastify = Fastify({ logger: true });
+// Logger configuration
+const logLevel = process.env.LOG_LEVEL || 'info';
+const logger = process.env.NODE_ENV === 'production' 
+  ? { level: logLevel }
+  : { level: 'info', transport: { target: 'pino-pretty' } };
+
+const fastify = Fastify({ 
+  logger,
+  trustProxy: process.env.TRUST_PROXY === 'true'
+});
 
 // CORS
 await fastify.register(cors, {

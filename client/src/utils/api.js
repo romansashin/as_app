@@ -1,6 +1,8 @@
-// В dev режиме используем localhost, в production - удаленный API
+// API URL configuration
+// VITE_API_URL должен быть установлен в .env или передан при сборке
+// Для dev режима используется localhost, для production - из переменной окружения
 const API_URL = import.meta.env.VITE_API_URL || 
-  (import.meta.env.DEV ? 'http://localhost:4000' : 'https://api.sashin.net/as-app');
+  (import.meta.env.DEV ? 'http://localhost:4000' : '');
 
 export const fetchContent = async () => {
   const url = `${API_URL}/api/content`;

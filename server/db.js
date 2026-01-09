@@ -1,7 +1,9 @@
 import sqlite3 from 'sqlite3';
 import { promisify } from 'util';
 
-const db = new sqlite3.Database('./database.sqlite');
+// Database path from environment variable or default
+const dbPath = process.env.DATABASE_PATH || './database.sqlite';
+const db = new sqlite3.Database(dbPath);
 
 // Promisify database methods
 const dbRun = promisify(db.run.bind(db));
