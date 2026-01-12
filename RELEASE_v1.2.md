@@ -292,8 +292,10 @@ NODE_ENV=production npm start
 - `✅ DEV mode activated` - DEV режим активирован
 - `⚠️ User not authenticated` - пользователь не авторизован
 
-### Telegram
-Служба заботы: [@as_administrator](https://t.me/as_administrator)
+### Контакты
+- Telegram: [@romansashin](https://t.me/romansashin)
+- Email: [roman@sashin.net](mailto:roman@sashin.net)
+- Website: [sashin.net](https://sashin.net)
 
 ---
 

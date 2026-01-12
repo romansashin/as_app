@@ -38,6 +38,7 @@ await fastify.register(cors, {
 });
 
 // Session
+// TODO: In production, fail if SESSION_SECRET is not set instead of using fallback
 await fastify.register(secureSession, {
   secret: process.env.SESSION_SECRET || '12345678901234567890123456789012',
   cookie: {

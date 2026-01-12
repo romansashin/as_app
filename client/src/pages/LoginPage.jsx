@@ -3,7 +3,8 @@ import Button from '../components/Button';
 import Card from '../components/Card';
 
 function LoginPage() {
-  // В dev режиме используем localhost, в production - удаленный API
+  // API URL берется из переменной окружения или использует дефолтные значения
+  // Для форка проекта: установите VITE_API_URL в .env файле клиента
   const API_URL = import.meta.env.VITE_API_URL || 
     (import.meta.env.DEV ? 'http://localhost:4000' : 'https://api.sashin.net/as-app');
   

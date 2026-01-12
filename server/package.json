@@ -18,5 +18,8 @@
     "passport-google-oauth20": "^2.0.0",
     "passport-yandex": "^0.0.4",
     "sqlite3": "^5.1.6"
+  },
+  "devDependencies": {
+    "pino-pretty": "^13.1.3"
   }
 }
