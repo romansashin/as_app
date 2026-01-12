@@ -1,69 +1,67 @@
-# 🧘 Приложение для медитации
+# 🧘 Meditation App
 
-> Веб-приложение для прослушивания гипнопрактик и медитаций с отслеживанием прогресса
+> Web application for listening to hypnotherapy and meditation practices with progress tracking
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ![Version](https://img.shields.io/badge/version-1.2.0-blue.svg)
 ![Last Updated](https://img.shields.io/badge/updated-January%202026-green.svg)
 
-[🇬🇧 English version](#english-version)
-
 ---
 
-## 📖 О проекте
+## 📖 About
 
-Полнофункциональное веб-приложение для прослушивания медитаций и гипнопрактик с возможностью отслеживания личного прогресса. Поддерживает фоновое воспроизведение, управление с экрана блокировки и OAuth авторизацию через Google/Yandex.
+A full-featured web application for listening to meditations and hypnotherapy sessions with personal progress tracking. Supports background playback, lock screen controls, and OAuth authentication via Google/Yandex.
 
-### ✨ Основные возможности
+### ✨ Key Features
 
-- 🎵 **Аудиоплеер с визуальным таймером** - красивый интерфейс с прогресс-баром
-- 📱 **Фоновое воспроизведение** - аудио продолжает играть даже с выключенным экраном (Wake Lock API + Media Session API)
-- 📊 **Отслеживание прогресса** - автоматический подсчет прослушиваний (засчитывается после 30 секунд)
-- 🔐 **OAuth авторизация** - вход через Google или Yandex
-- 🌐 **DEV режим** - работа без авторизации для разработки и демо
-- 💾 **Персональные данные** - прогресс привязан к аккаунту и доступен с любого устройства
-- 🎨 **Современный UI** - адаптивный дизайн на Tailwind CSS
+- 🎵 **Audio Player with Visual Timer** - beautiful interface with progress bar
+- 📱 **Background Playback** - audio continues playing even with screen off (Wake Lock API + Media Session API)
+- 📊 **Progress Tracking** - automatic listening count (recorded after 30 seconds)
+- 🔐 **OAuth Authentication** - login via Google or Yandex
+- 🌐 **DEV Mode** - works without authentication for development and demo
+- 💾 **Personal Data** - progress tied to account and accessible from any device
+- 🎨 **Modern UI** - responsive design with Tailwind CSS
 
-### 🛠 Технологический стек
+### 🛠 Tech Stack
 
 #### Backend
-- **Node.js** - серверная платформа
-- **Fastify** - быстрый веб-фреймворк
-- **SQLite** - легковесная база данных
-- **Passport.js** - OAuth авторизация (Google, Yandex)
+- **Node.js** - server platform
+- **Fastify** - fast web framework
+- **SQLite** - lightweight database
+- **Passport.js** - OAuth authentication (Google, Yandex)
 
 #### Frontend
-- **React 18** - UI библиотека
-- **Vite** - быстрая сборка и dev-сервер
-- **Tailwind CSS** - utility-first CSS фреймворк
-- **Wake Lock API** - предотвращение засыпания устройства
-- **Media Session API** - управление с экрана блокировки
+- **React 18** - UI library
+- **Vite** - fast build tool and dev server
+- **Tailwind CSS** - utility-first CSS framework
+- **Wake Lock API** - prevent device from sleeping
+- **Media Session API** - lock screen controls
 
 #### DevOps
-- **Docker** - контейнеризация
-- **Docker Compose** - оркестрация сервисов
-- **nginx** - reverse proxy (в production)
+- **Docker** - containerization
+- **Docker Compose** - service orchestration
+- **nginx** - reverse proxy (in production)
 
 ---
 
-## 🚀 Быстрый старт
+## 🚀 Quick Start
 
-### Предварительные требования
+### Prerequisites
 
 - Node.js >= 18.x
 - npm >= 9.x
-- (опционально) Docker и Docker Compose
+- (optional) Docker and Docker Compose
 
-### Установка и запуск
+### Installation and Launch
 
-1. **Клонируйте репозиторий**
+1. **Clone the repository**
 
 ```bash
 git clone https://github.com/romansashin/as_app.git
 cd as_app
 ```
 
-2. **Установите зависимости**
+2. **Install dependencies**
 
 ```bash
 npm install
@@ -72,81 +70,81 @@ cd ../client && npm install
 cd ..
 ```
 
-3. **Запустите в DEV режиме**
+3. **Run in DEV mode**
 
 ```bash
 npm run dev
 ```
 
-Приложение будет доступно:
+Application will be available at:
 - 🌐 Frontend: http://localhost:5173
 - 🔌 Backend: http://localhost:4000
 
-**В DEV режиме авторизация отключена** - можно сразу пользоваться приложением без настройки OAuth.
+**In DEV mode** authentication is disabled - you can use the app immediately without OAuth setup.
 
 ---
 
-## 🐳 Docker (рекомендуется)
+## 🐳 Docker (Recommended)
 
-### Development режим
+### Development mode
 
 ```bash
 docker-compose up
 ```
 
-### Production режим
+### Production mode
 
 ```bash
-# 1. Скопируйте и настройте переменные окружения
+# 1. Copy and configure environment variables
 cp env.production.example .env
 nano .env
 
-# 2. Запустите контейнеры
+# 2. Start containers
 docker-compose -f docker-compose.prod.yml up -d --build
 ```
 
 ---
 
-## ⚙️ Production настройка
+## ⚙️ Production Setup
 
-### 1. Настройка OAuth
+### 1. OAuth Configuration
 
 <details>
 <summary>📘 Google OAuth</summary>
 
-1. Перейдите в [Google Cloud Console](https://console.cloud.google.com/apis/credentials)
-2. Создайте новый проект или выберите существующий
-3. Включите Google+ API
-4. Создайте OAuth 2.0 Client ID
-5. Добавьте Authorized redirect URIs:
-   - `http://localhost:4000/auth/google/callback` (для dev)
-   - `https://yourdomain.com/auth/google/callback` (для production)
-6. Скопируйте Client ID и Client Secret
+1. Go to [Google Cloud Console](https://console.cloud.google.com/apis/credentials)
+2. Create a new project or select existing
+3. Enable Google+ API
+4. Create OAuth 2.0 Client ID
+5. Add Authorized redirect URIs:
+   - `http://localhost:4000/auth/google/callback` (for dev)
+   - `https://yourdomain.com/auth/google/callback` (for production)
+6. Copy Client ID and Client Secret
 
 </details>
 
 <details>
 <summary>📙 Yandex OAuth</summary>
 
-1. Перейдите в [Yandex OAuth](https://oauth.yandex.ru/)
-2. Создайте новое приложение
-3. Укажите Callback URL:
-   - `http://localhost:4000/auth/yandex/callback` (для dev)
-   - `https://yourdomain.com/auth/yandex/callback` (для production)
-4. Получите доступ к `login:email` и `login:info`
-5. Скопируйте Client ID и Client Secret
+1. Go to [Yandex OAuth](https://oauth.yandex.ru/)
+2. Create a new application
+3. Specify Callback URL:
+   - `http://localhost:4000/auth/yandex/callback` (for dev)
+   - `https://yourdomain.com/auth/yandex/callback` (for production)
+4. Request access to `login:email` and `login:info`
+5. Copy Client ID and Client Secret
 
 </details>
 
-### 2. Переменные окружения
+### 2. Environment Variables
 
-Создайте файл `/server/.env`:
+Create file `/server/.env`:
 
 ```bash
 cp server/env.example server/.env
 ```
 
-Заполните переменные:
+Fill in the variables:
 
 ```env
 NODE_ENV=production
@@ -162,188 +160,110 @@ YANDEX_CLIENT_SECRET=your-yandex-client-secret
 FRONTEND_URL=https://yourdomain.com
 ```
 
-**⚠️ Важно:** Используйте надежный `SESSION_SECRET` (минимум 32 случайных символа)
+**⚠️ Important:** Use a strong `SESSION_SECRET` (minimum 32 random characters)
 
-### 3. Сборка и запуск
+### 3. Build and Run
 
 ```bash
-# Сборка frontend
+# Build frontend
 cd client && npm run build
 
-# Запуск production сервера
+# Start production server
 cd ../server && npm start
 ```
 
 ---
 
-## 📁 Структура проекта
+## 📁 Project Structure
 
 ```
 as_app/
-├── client/                 # React приложение
+├── client/                 # React application
 │   ├── src/
-│   │   ├── pages/         # Страницы (Login, Catalog, Category, Practice)
-│   │   ├── components/    # Переиспользуемые компоненты
-│   │   └── utils/         # API клиент и утилиты
-│   ├── public/            # Статические файлы
-│   └── dist/              # Сборка (генерируется)
-├── server/                # Fastify API сервер
-│   ├── server.js          # Главный файл сервера
-│   ├── auth.js            # OAuth конфигурация
-│   ├── db.js              # SQLite база данных
+│   │   ├── pages/         # Pages (Login, Catalog, Category, Practice)
+│   │   ├── components/    # Reusable components
+│   │   └── utils/         # API client and utilities
+│   ├── public/            # Static files
+│   └── dist/              # Build output (generated)
+├── server/                # Fastify API server
+│   ├── server.js          # Main server file
+│   ├── auth.js            # OAuth configuration
+│   ├── db.js              # SQLite database
 │   ├── data/
-│   │   └── content.json   # Контент медитаций
-│   └── database.sqlite    # База данных (генерируется)
-├── docker-compose.yml     # Dev окружение
-├── docker-compose.prod.yml # Production окружение
+│   │   └── content.json   # Meditation content
+│   └── database.sqlite    # Database (generated)
+├── docker-compose.yml     # Dev environment
+├── docker-compose.prod.yml # Production environment
 └── README.md
 ```
 
 ---
 
-## 🗄️ База данных
+## 🗄️ Database
 
-SQLite база с двумя таблицами:
+SQLite database with two tables:
 
 **users**
-- `id` - уникальный ID
-- `provider` - OAuth провайдер (google/yandex)
-- `provider_id` - ID пользователя у провайдера
-- `email` - email пользователя
-- `created_at` - дата регистрации
+- `id` - unique ID
+- `provider` - OAuth provider (google/yandex)
+- `provider_id` - user ID from provider
+- `email` - user email
+- `created_at` - registration date
 
 **user_progress**
-- `id` - уникальный ID записи
-- `user_id` - ссылка на users.id
-- `practice_id` - ID практики
-- `listened_at` - дата и время прослушивания
+- `id` - unique entry ID
+- `user_id` - reference to users.id
+- `practice_id` - practice ID
+- `listened_at` - date and time of listening
 
-В DEV режиме используется фиктивный `user_id = 1`.
-
----
-
-## 📚 Документация
-
-- 🚀 [Production Deployment Guide](./PRODUCTION_DEPLOYMENT.md) - Полная инструкция по deployment
-- 🏗️ [System Architecture](./SYSTEM_ARCHITECTURE.md) - Архитектура системы
-- 💾 [Backup Guide](./BACKUP_GUIDE.md) - Резервное копирование базы данных
-- 🐳 [Docker Deployment](./DOCKER_DEPLOYMENT.md) - Детали Docker развертывания
-- 🎵 [Audio Playback Features](./AUDIO_PLAYBACK_FEATURES.md) - Возможности аудиоплеера
-- 🚪 [Logout Feature](./LOGOUT_FEATURE.md) - Функция выхода из системы
-- 📋 [Release Notes v1.2](./RELEASE_v1.2.md) - Что нового в версии 1.2
+In DEV mode, a dummy `user_id = 1` is used.
 
 ---
 
-## 🔒 Безопасность
+## 📚 Documentation
 
-- ✅ OAuth 2.0 авторизация
-- ✅ Защищенные cookie сессии (httpOnly, secure в production)
-- ✅ CORS настроен для конкретного домена
-- ✅ `.env` файлы в `.gitignore`
-- ✅ Секреты не хранятся в коде
-
-**Примечание:** В DEV режиме используется fallback для `SESSION_SECRET`. В production обязательно установите свой секретный ключ!
-
----
-
-## 🤝 Вклад в проект
-
-Проект создан для портфолио, но форки и предложения приветствуются!
-
-1. Сделайте форк проекта
-2. Создайте feature branch (`git checkout -b feature/AmazingFeature`)
-3. Закоммитьте изменения (`git commit -m 'Add some AmazingFeature'`)
-4. Запушьте в branch (`git push origin feature/AmazingFeature`)
-5. Откройте Pull Request
+- 🚀 [Production Deployment Guide](./docs/PRODUCTION_DEPLOYMENT.md) - Complete deployment instructions
+- 🏗️ [System Architecture](./docs/SYSTEM_ARCHITECTURE.md) - System architecture
+- 💾 [Backup Guide](./docs/BACKUP_GUIDE.md) - Database backup
+- 🐳 [Docker Deployment](./docs/DOCKER_DEPLOYMENT.md) - Docker deployment details
+- 🎵 [Audio Playback Features](./docs/AUDIO_PLAYBACK_FEATURES.md) - Audio player capabilities
+- 🚪 [Logout Feature](./docs/LOGOUT_FEATURE.md) - Logout functionality
+- 📋 [Release Notes v1.2](./docs/RELEASE_v1.2.md) - What's new in version 1.2
+- 📝 [Changelog](./docs/CHANGELOG.md) - Version history
 
 ---
 
-## 📝 Лицензия
+## 🔒 Security
 
-Этот проект распространяется под лицензией MIT. См. файл [LICENSE](./LICENSE) для подробностей.
+- ✅ OAuth 2.0 authentication
+- ✅ Secure cookie sessions (httpOnly, secure in production)
+- ✅ CORS configured for specific domain
+- ✅ `.env` files in `.gitignore`
+- ✅ Secrets not stored in code
 
-**TL;DR:** Вы можете свободно использовать, изменять и распространять этот код, даже в коммерческих проектах. Автор не несет ответственности за любые проблемы, связанные с использованием кода.
-
----
-
-## 👤 Автор
-
-**Roman Sashin** — IT-разработчик, специализируюсь на автоматизации бизнеса и разработке приложений
-
-- 🌐 Website: [sashin.net](https://sashin.net)
-- 📧 Email: [roman@sashin.net](mailto:roman@sashin.net)
-- 💬 Telegram: [@romansashin](https://t.me/romansashin)
-- 💼 GitHub: [@romansashin](https://github.com/romansashin)
+**Note:** In DEV mode, a fallback is used for `SESSION_SECRET`. In production, always set your own secret key!
 
 ---
 
-## ⭐️ Благодарности
+## 🤝 Contributing
 
-Спасибо за интерес к проекту! Если он был полезен, поставьте ⭐️
+This project was created for portfolio purposes, but forks and suggestions are welcome!
+
+1. Fork the project
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ---
-
-<a name="english-version"></a>
-
-# 🧘 Meditation App
-
-> Web application for listening to hypnotherapy and meditation practices with progress tracking
-
-## 📖 About
-
-A full-featured web application for listening to meditations and hypnotherapy sessions with personal progress tracking. Supports background playback, lock screen controls, and OAuth authentication via Google/Yandex.
-
-## ✨ Key Features
-
-- 🎵 **Audio Player with Visual Timer** - beautiful interface with progress bar
-- 📱 **Background Playback** - audio continues playing even with screen off (Wake Lock API + Media Session API)
-- 📊 **Progress Tracking** - automatic listening count (recorded after 30 seconds)
-- 🔐 **OAuth Authentication** - login via Google or Yandex
-- 🌐 **DEV Mode** - works without authentication for development and demo
-- 💾 **Personal Data** - progress tied to account and accessible from any device
-- 🎨 **Modern UI** - responsive design with Tailwind CSS
-
-## 🛠 Tech Stack
-
-**Backend:** Node.js, Fastify, SQLite, Passport.js  
-**Frontend:** React 18, Vite, Tailwind CSS, Wake Lock API, Media Session API  
-**DevOps:** Docker, Docker Compose, nginx
-
-## 🚀 Quick Start
-
-```bash
-# Clone
-git clone https://github.com/romansashin/as_app.git
-cd as_app
-
-# Install dependencies
-npm install
-cd server && npm install
-cd ../client && npm install
-
-# Run in DEV mode
-npm run dev
-```
-
-Visit http://localhost:5173
-
-**In DEV mode** authentication is disabled - you can use the app immediately without OAuth setup.
-
-## 🐳 Docker (Recommended)
-
-```bash
-# Development
-docker-compose up
-
-# Production
-cp env.production.example .env
-# Edit .env with your credentials
-docker-compose -f docker-compose.prod.yml up -d --build
-```
 
 ## 📝 License
 
-MIT License - see [LICENSE](./LICENSE) file for details.
+This project is distributed under the MIT License. See [LICENSE](./LICENSE) file for details.
+
+**TL;DR:** You can freely use, modify, and distribute this code, even in commercial projects. The author is not responsible for any issues related to the use of the code.
+
+---
 
 ## 👤 Author
 
@@ -356,4 +276,12 @@ MIT License - see [LICENSE](./LICENSE) file for details.
 
 ---
 
-⭐️ Star this repo if you find it useful!
+## ⭐️ Acknowledgments
+
+Thank you for your interest in the project! If you found it useful, please give it a ⭐️
+
+---
+
+**Version:** 1.2.0  
+**Status:** ✅ Production Ready  
+**Last Updated:** January 2026
